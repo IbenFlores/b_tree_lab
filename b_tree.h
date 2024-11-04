@@ -1,7 +1,7 @@
 #ifndef B_TREE_H
 #define B_TREE_H
 
-#define MAX_KEYS 4
+#define MAX_KEYS 5
 
 typedef struct BTreeNode BTreeNode;
 

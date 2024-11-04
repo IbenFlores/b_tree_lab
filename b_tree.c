@@ -88,18 +88,27 @@ void insertKey(struct BTreeNode *node, double key) {
 }
 
 void loadKeysFromFile(BTreeNode **root, const char *filename) {
-    FILE *file = fopen(filename, "r");
-    if (!file) {
-        fprintf(stderr, "Error: could not open file: %s\n", filename);
-        return;
-    }
+  FILE *file = fopen(filename, "r");
+  if (!file) {
+    fprintf(stderr, "Error: could not open file: %s\n", filename);
+    return;
+  }
 
-    double key;
-    while (fscanf(file, "%lf", &key) == 1) {
-        insert(root, key);
-    }
+  char line[128];
+  int index; // variable to hold the integer before the comma
+  double key;
 
-    fclose(file);
+  while (fgets(line, sizeof(line), file)) {
+    // Parse the line to extract the intxeger and the floating-point number
+    if (sscanf(line, "%d,%lf", &index, &key) == 2) {
+      printf("%.16lf \n", key);
+      insert(root, key);
+    } else {
+      fprintf(stderr, "Warning: skipping malformed line: %s", line);
+    }
+  }
+
+  fclose(file);
 }
 
 
